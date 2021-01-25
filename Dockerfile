@@ -1,4 +1,7 @@
-FROM python:3.8
+FROM alpine:latest
+
+# Install python and pip
+RUN apk add --no-cache --update python3 py3-pip bash
 ENV PYTHONUNBUFFERED 1
 WORKDIR /app
 COPY requirements.txt /app/requirements.txt
