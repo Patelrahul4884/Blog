@@ -5,7 +5,8 @@ COPY requirements.txt /app/requirements.txt
 RUN pip install -r requirements.txt
 COPY . /app
 
-EXPOSE 8000
+# Run the image as a non-root user
+
 
 # Run the app.  CMD is required to run on Heroku
 # $PORT is set by Heroku			
