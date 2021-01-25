@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  blog_backend:
+    build: .
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/app
+    depends_on: 
+      - db_blog
+  
+  blog_queue:
+    build: .
+    command: 'python consumer.py'
+    depends_on:
+      - db_blog
+
+  
+  db_blog:
+    image: mysql:5.7.22
+    restart: always
+    environment: 
+      MYSQL_DATABASE: blog
+      MYSQL_USER: root
+      MY_SQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+    volumes: 
+      - .dbdata:/var/lib/mysql
+    ports: 
+      - 33066:3306
